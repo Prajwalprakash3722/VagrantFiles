@@ -1,0 +1,40 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ENV['VAGRANT_NO_PARALLEL'] = 'yes'
+
+Vagrant.configure(2) do |config|
+
+  config.vm.provision "shell", path: "bootstrap.sh"
+
+  # change the no of nodes based on your requirement
+  NodeCount = 1
+
+  (1..NodeCount).each do |i|
+
+    config.vm.define "ubuntu_node#{i}" do |node|
+
+      node.vm.box               = "generic/ubuntu2204"
+      node.vm.box_check_update  = false
+      node.vm.box_version       = "4.2.16"
+      node.vm.hostname          = "node#{i}.example.com"
+
+      node.vm.network "private_network", type:"dhcp"
+
+      node.vm.provider :virtualbox do |v|
+        v.name    = "ubuntu_node#{i}"
+        v.memory  = 1024
+        v.cpus    = 1
+      end
+
+      node.vm.provider :libvirt do |v|
+        v.nested  = true
+        v.memory  = 1024
+        v.cpus    = 1
+      end
+
+    end
+
+  end
+
+end
