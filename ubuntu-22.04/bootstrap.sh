@@ -10,3 +10,8 @@ systemctl reload sshd
 echo "Set root password"
 echo -e "admin\nadmin" | passwd root >/dev/null 2>&1
 
+# Install packages
+sudo apt-get install nginx -y
+
+# allow 80 port
+sudo ufw allow http

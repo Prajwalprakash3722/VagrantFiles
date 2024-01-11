@@ -8,12 +8,13 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: "bootstrap.sh"
 
   # change the no of nodes based on your requirement
-  NodeCount = 1
+  NodeCount = 3
 
   (1..NodeCount).each do |i|
 
     config.vm.define "ubuntu_node#{i}" do |node|
-
+    
+      # change the box name as per your requirement
       node.vm.box               = "generic/ubuntu2204"
       node.vm.box_check_update  = false
       node.vm.box_version       = "4.2.16"
